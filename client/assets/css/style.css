@@ -1,5 +1,11 @@
 
 body {margin:0;}
+
+
+ul.topnav li.right {
+  float: right;
+}
+
 ul.topnav {
   list-style-type: none;
   margin: 0;
@@ -49,9 +55,6 @@ ul.topnav li.icon {display: none;}
   }
 }
 
-#login-btn {
-  float: right;
-}
 
 /* SLICK */
 

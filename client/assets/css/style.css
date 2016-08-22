@@ -1,0 +1,70 @@
+.my-slick-title {
+  font-size: 24px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.my-slick {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px 50px;
+}
+
+.my-slick .slick-arrow {
+  font-size: 24px;
+  color: #00c1d5;
+}
+
+.my-slick .slick-prev, .my-slick .slick-next {
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  padding: 0;
+  cursor: pointer;
+  z-index: 11111;
+}
+
+.my-slick .slick-prev {
+  left: 10px;
+}
+
+.my-slick .slick-next {
+  right: 10px;
+}
+
+.my-slick .shop-item {
+  position: relative;
+  height: 200px;
+}
+
+.my-slick .shop-item .name{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.37);
+  color: white;
+  padding: 2px 10px;
+  font-weight: bold;
+}
+
+.my-slick .shop-item .city{
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.37);
+  color: white;
+  padding: 2px 10px;
+  font-weight: bold;
+}
+
+.my-slick .logo {
+
+}
+
+.my-slick .logo img {
+  width: 100%;
+  height: auto;
+}

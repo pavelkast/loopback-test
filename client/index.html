@@ -24,11 +24,15 @@
 
 <ul class="topnav" id="myTopnav">
   <li><a class="active" href="#home">Home</a></li>
-  <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
   <li><a href="#contact">Contact</a></li>
   <li><a href="#about">About</a></li>
+
+  <li><a href="#" id="login-btn" data-toggle="modal" data-target="#login-modal">Login</a></li>
+  <li><a href="#" id="account-btn" class="hidden" data-toggle="modal" data-target="#account-modal">Account</a></li>
+  <li><a href="#" id="logout-btn" class="hidden">Logout</a></li>
+
   <li class="icon">
-    <a href="javascript:void(0);" style="font-size:15px;" onclick="myFunction()">☰</a>
+    <a href="javascript:void(0);" style="font-size:15px;" onclick="toggleTopNavigation()">☰</a>
   </li>
 </ul>
 
@@ -51,6 +55,23 @@
   </div>
 </div>
 
+<div class="modal fade" id="account-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="loginmodal-container">
+      <h1>Account Details</h1><br>
+
+      <form>
+        <h3>Email: <input type="email" name="email" placeholder="Email"></h3>
+        <h3>Current Avatar: <img src="assets/images/nophoto.jpg" id="avatar"></h3>
+        <input type="file" name="avatar" placeholder="Avatar">
+        <input type="submit" name="account" class="login loginmodal-submit" value="Update">
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
   <div class="my-slick-wrapper">
     <div class="my-slick-title">Shop List with Name, Logo and City</div>
     <div class="my-slick">Loading... Please, wait</div>
@@ -71,16 +92,16 @@
         '</div>';
       });
 
-      $('.my-slick').html(html);
-
-      $('.my-slick').slick(slickSettings);
+      $('.my-slick')
+        .html(html)
+        .slick(slickSettings);
     });
 
 
-    $('.loginmodal-submit').on('click', function (event) {
+    $('#login-modal input[type="submit"]').on('click', function (event) {
       event.preventDefault();
-      const login = $('.loginmodal-container input[name="user"]').val();
-      const password = $('.loginmodal-container input[name="pass"]').val();
+      const login = $('#login-modal input[name="user"]').val();
+      const password = $('#login-modal input[name="pass"]').val();
 
       $.ajax({
         url: '/api/Users/login',
@@ -91,14 +112,63 @@
           password: password
         },
         success: function(result) {
-          console.log(result);
-          $('#login-modal').modal('hide');
+          userData.access_token = result.id;
+          userData.user_id = result.userId;
+
+          $.get('/api/Users/' + userData.user_id  + '?access_token=' + userData.access_token, function(fields) {
+            userData.fields = fields;
+            $('#login-modal').modal('hide');
+            $('#logout-btn').removeClass('hidden');
+            $('#account-btn').removeClass('hidden');
+            $('#login-btn').addClass('hidden');
+          });
         },
         error: function(result) {
           console.log(result);
         }
       })
-    })
+    });
+
+    $('#account-modal').on('shown.bs.modal', populateAccountModal);
+
+    $('#account-modal form').on('submit', function() {
+      var file_data = $('#account-modal form input[type="file"]').prop('files')[0];
+      var form_data = new FormData();
+      form_data.append('file', file_data);
+
+      $.ajax({
+        url         : '/api/Files/upload',     // point to server-side PHP script
+        dataType    : 'text',           // what to expect back from the PHP script, if anything
+        cache       : false,
+        contentType : false,
+        processData : false,
+        data        : form_data,
+        type        : 'post',
+        success     : function(output){
+          alert(output);              // display response from the PHP script, if any
+        }
+      });
+      $('#avatar').val('');
+    });
+
+    $('#logout-btn').on('click', function (event) {
+      event.preventDefault();
+
+      $.ajax({
+        url: '/api/Users/logout?access_token=' + userData.access_token,
+        type: 'POST',
+        success: function(result, content, response) {
+          if(response.status === 204) {
+            $('#logout-btn').addClass('hidden');
+            $('#account-btn').addClass('hidden');
+            $('#login-btn').removeClass('hidden');
+          }
+        },
+        error: function(result) {
+          console.log(result);
+        }
+      })
+    });
   });
 </script>
 </html>

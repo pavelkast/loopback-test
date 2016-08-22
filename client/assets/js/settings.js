@@ -33,3 +33,9 @@ var slickSettings = {
     // instead of a settings object
   ]
 };
+
+var userData = {
+  access_token: '',
+  user_id: 0,
+  fields: {}
+};

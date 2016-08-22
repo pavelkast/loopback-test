@@ -29,5 +29,9 @@
   "CoffeeShop": {
     "dataSource": "mysqlDs",
     "public": true
+  },
+  "File": {
+    "dataSource": "mysqlDs",
+    "public": true
   }
 }

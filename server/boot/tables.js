@@ -6,6 +6,10 @@
 module.exports = function(app) {
   app.models.User.defineProperty('avatar_url', { type: 'string' });
 
+  app.dataSources.mysqlDs.automigrate('File', function(err) {
+    if (err) throw err;
+  });
+
   app.dataSources.mysqlDs.automigrate('User', function(err) {
     if (err) throw err;
 

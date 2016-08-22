@@ -7,10 +7,13 @@
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
 
   <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap/login.css"/>
+
 
   <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
   <script src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
   <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
   <script src="assets/js/settings.js"></script>
   <script src="assets/js/functions.js"></script>
@@ -18,6 +21,36 @@
 </head>
 
 <body>
+
+<ul class="topnav" id="myTopnav">
+  <li><a class="active" href="#home">Home</a></li>
+  <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
+  <li><a href="#contact">Contact</a></li>
+  <li><a href="#about">About</a></li>
+  <li class="icon">
+    <a href="javascript:void(0);" style="font-size:15px;" onclick="myFunction()">☰</a>
+  </li>
+</ul>
+
+
+
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="loginmodal-container">
+      <h1>Login to Your Account</h1><br>
+      <form>
+        <input type="text" name="user" placeholder="Username">
+        <input type="password" name="pass" placeholder="Password">
+        <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+      </form>
+
+      <div class="login-help hidden">
+        <a href="#">Register</a> - <a href="#">Forgot Password</a>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="my-slick-wrapper">
     <div class="my-slick-title">Shop List with Name, Logo and City</div>
     <div class="my-slick">Loading... Please, wait</div>
@@ -42,6 +75,31 @@
 
       $('.my-slick').slick(slickSettings);
     });
+
+
+    $('.loginmodal-submit').on('click', function (event) {
+      event.preventDefault();
+      const login = $('.loginmodal-container input[name="user"]').val();
+      const password = $('.loginmodal-container input[name="pass"]').val();
+
+      $.ajax({
+        url: '/api/Users/login',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          username: login,
+          password: password
+        },
+        success: function(result) {
+          console.log(result);
+          $('#login-modal').modal('hide');
+        },
+        error: function(result) {
+          console.log(result);
+        }
+      })
+    })
   });
 </script>
 </html>
+

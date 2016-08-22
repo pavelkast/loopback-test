@@ -4,8 +4,18 @@
 // License text available at https://opensource.org/licenses/MIT
 
 module.exports = function(app) {
+  app.models.User.defineProperty('avatar_url', { type: 'string' });
+
   app.dataSources.mysqlDs.automigrate('User', function(err) {
     if (err) throw err;
+
+    app.models.User.create([
+      {username: 'test', password: 'test', email: 'test@test.com'}
+    ], function(err, coffeeShops) {
+      if (err) throw err;
+
+      console.log('Models created: \n', coffeeShops);
+    });
   });
 
   app.dataSources.mysqlDs.automigrate('AccessToken', function(err) {

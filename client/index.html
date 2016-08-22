@@ -1,27 +1,29 @@
 <html>
-  <head>
-    <title>LoopBack</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+  <title>LoopBack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
 
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
 
-    <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
 
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/functions.js"></script>
+  <script src="assets/js/settings.js"></script>
+  <script src="assets/js/functions.js"></script>
 
-  </head>
-  <body>
+</head>
+
+<body>
   <div class="my-slick-wrapper">
     <div class="my-slick-title">Shop List with Name, Logo and City</div>
     <div class="my-slick">Loading... Please, wait</div>
   </div>
-  </body>
+</body>
+
 <script>
   $(document).ready(function() {
     getShopList(function(result) {

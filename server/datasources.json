@@ -8,7 +8,7 @@
     "connector": "mysql",
     "host": "localhost",
     "port": 3306,
-    "database": "test",
+    "database": "loopback",
     "username": "admin",
     "password": "admin"
   }

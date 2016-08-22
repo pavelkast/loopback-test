@@ -80,6 +80,13 @@
 
 <script>
   $(document).ready(function() {
+    if(userData.user_id) {
+      $('#logout-btn').removeClass('hidden');
+      $('#account-btn').removeClass('hidden');
+      $('#login-btn').addClass('hidden');
+    }
+
+
     getShopList(function(result) {
       const count = result.length;
       const html = result.map(function (item) {
@@ -117,6 +124,7 @@
 
           $.get('/api/Users/' + userData.user_id  + '?access_token=' + userData.access_token, function(fields) {
             userData.fields = fields;
+            localStorage.setItem('userData', JSON.stringify(userData));
             $('#login-modal').modal('hide');
             $('#logout-btn').removeClass('hidden');
             $('#account-btn').removeClass('hidden');
@@ -129,9 +137,11 @@
       })
     });
 
-    $('#account-modal').on('shown.bs.modal', populateAccountModal);
+    $('#account-modal').on('show.bs.modal', populateAccountModal);
 
-    $('#account-modal form').on('submit', function() {
+    $('#account-modal form').on('submit', function(event) {
+      event.preventDefault();
+
       var file_data = $('#account-modal form input[type="file"]').prop('files')[0];
       var form_data = new FormData();
       form_data.append('file', file_data);
@@ -145,7 +155,12 @@
         data        : form_data,
         type        : 'post',
         success     : function(output){
-          alert(output);              // display response from the PHP script, if any
+          var parsedJson = JSON.parse(output);
+
+          userData.fields.avatar_url = parsedJson.url;
+          localStorage.setItem('userData', JSON.stringify(userData));
+
+          $('#account-modal').modal('hide');// display response from the PHP script, if any
         }
       });
       $('#avatar').val('');
@@ -158,14 +173,16 @@
         url: '/api/Users/logout?access_token=' + userData.access_token,
         type: 'POST',
         success: function(result, content, response) {
-          if(response.status === 204) {
-            $('#logout-btn').addClass('hidden');
-            $('#account-btn').addClass('hidden');
-            $('#login-btn').removeClass('hidden');
-          }
+          $('#logout-btn').addClass('hidden');
+          $('#account-btn').addClass('hidden');
+          $('#login-btn').removeClass('hidden');
+          localStorage.removeItem('userData');
         },
         error: function(result) {
-          console.log(result);
+          $('#logout-btn').addClass('hidden');
+          $('#account-btn').addClass('hidden');
+          $('#login-btn').removeClass('hidden');
+          localStorage.removeItem('userData');
         }
       })
     });

@@ -39,3 +39,8 @@ var userData = {
   user_id: 0,
   fields: {}
 };
+
+var storageData = JSON.parse(localStorage.getItem('userData'));
+if (storageData && storageData.user_id) {
+  userData = storageData;
+}

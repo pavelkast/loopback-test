@@ -1,38 +1,37 @@
-var CONTAINERS_URL = '/api/containers/';
+'use strict';
+
+const CONTAINERS_URL = '/api/containers/';
+const Promise = require('bluebird');
 
 module.exports = function(File) {
 
-  File.upload = function (ctx, options, cb) {
-    if(!options) options = {};
-    ctx.req.params.container = 'common';
-    const userId = parseInt(ctx.req.query.user_id, 10);
+  File.upload = (ctx, options, cb) => {
+    Promise.coroutine(function* () {
+      if(!options) options = {};
+      ctx.req.params.container = 'common';
+      const userId = parseInt(ctx.req.query.user_id, 10);
 
-    File.app.models.container.upload(ctx.req, ctx.result, options, function (err, fileObj) {
-      if(err) {
-        return cb(err);
-      }
+      File.app.models.container.upload = Promise.promisify(File.app.models.container.upload);
+      const fileObj = yield File.app.models.container.upload(ctx.req, ctx.result, options);
+      const fileInfo = fileObj.files.file[0];
 
-      var fileInfo = fileObj.files.file[0];
-      File.create({
+      const obj = yield File.create({
         name: fileInfo.name,
         type: fileInfo.type,
         container: fileInfo.container,
         url: CONTAINERS_URL+fileInfo.container+'/download/'+fileInfo.name
-      }, function (err,obj) {
-        if (err !== null) {
-          cb(err);
-        } else {
-
-          var User = File.app.models.User;
-          const whereClause = { id: userId };
-          const data = { avatar_url: obj.url };
-          console.log(data)
-          User.updateAll(whereClause, data, function (error, res) {
-              cb(null, obj);
-            });
-        }
       });
-    });
+
+      const User = File.app.models.User;
+      const whereClause = { id: userId };
+      const data = { avatar_url: obj.url };
+      console.log(data);
+
+      yield User.updateAll(whereClause, data);
+      cb(null, obj);
+
+    })()
+      .catch((error) => cb(error));
   };
 
   File.remoteMethod(

@@ -137,7 +137,7 @@
       form_data.append('file', file_data);
 
       $.ajax({
-        url         : '/api/Files/upload',     // point to server-side PHP script
+        url         : '/api/Files/upload?user_id=' + userData.user_id ,     // point to server-side PHP script
         dataType    : 'text',           // what to expect back from the PHP script, if anything
         cache       : false,
         contentType : false,

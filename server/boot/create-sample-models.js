@@ -8,9 +8,12 @@ module.exports = function(app) {
     if (err) throw err;
 
     app.models.CoffeeShop.create([
-      {name: 'Bel Cafe', city: 'Vancouver'},
-      {name: 'Three Bees Coffee House', city: 'San Mateo'},
-      {name: 'Caffe Artigiano', city: 'Vancouver'},
+      {name: 'Bel Cafe', city: 'Vancouver', image_url: '/assets/images/shop/1.jpg'},
+      {name: 'Three Bees Coffee House', city: 'San Mateo', image_url: '/assets/images/shop/2.jpg'},
+      {name: 'Caffe Artigiano', city: 'Vancouver', image_url: '/assets/images/shop/3.jpg'},
+      {name: 'Hop Hey Lalaley', city: 'Berlin', image_url: '/assets/images/shop/4.png'},
+      {name: 'Azaza', city: 'New York', image_url: '/assets/images/shop/5.jpg'},
+      {name: 'Rumochnaya', city: 'Minsk', image_url: '/assets/images/shop/6.jpg'},
     ], function(err, coffeeShops) {
       if (err) throw err;
 

@@ -9,6 +9,9 @@
     "city": {
       "type": "string",
       "required": true
+    },
+    "image_url": {
+      "type": "string"
     }
   },
   "validations": [],
